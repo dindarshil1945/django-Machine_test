@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta1/css/bootstrap.min.css" />
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+
+  <title>Hospital Management | Dashboard</title>
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #e0f7fa, #ffffff);
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 230px;
+      background-color: #007bff;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      padding-top: 1rem;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar h4 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .sidebar a {
+      color: #fff;
+      text-decoration: none;
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      align-items: center;
+      font-weight: 500;
+      transition: background 0.3s ease, padding-left 0.3s ease;
+    }
+
+    .sidebar a i {
+      margin-right: 10px;
+    }
+
+    .sidebar a:hover,
+    .sidebar a.active {
+      background-color: #0056b3;
+      padding-left: 1.8rem;
+      border-radius: 0 20px 20px 0;
+    }
+
+    /* Main content */
+    .main-content {
+      margin-left: 230px;
+      flex: 1;
+      overflow-y: auto;
+      padding: 2rem;
+    }
+
+    /* Section container */
+    .container-section {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    h3 {
+      color: #007bff;
+      margin-bottom: 1rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    /* Table styling */
+    .table {
+      width: 100%;
+      table-layout: fixed;
+      border-collapse: collapse;
+    }
+
+    .table th,
+    .table td {
+      vertical-align: middle;
+      text-align: center;
+      word-wrap: break-word;
+    }
+
+    .table th {
+      background-color: #007bff;
+      color: white;
+    }
+
+    /* Buttons */
+    .table .btn {
+      padding: 6px 12px;
+      font-size: 0.85rem;
+      border-radius: 8px;
+      margin: 3px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-info {
+      background-color: #0dcaf0;
+      border: none;
+      color: #fff;
+    }
+
+    .btn-info:hover {
+      background-color: #0bb3d3;
+      transform: translateY(-1px);
+    }
+
+    .btn-danger {
+      background-color: #dc3545;
+      border: none;
+      color: #fff;
+    }
+
+    .btn-danger:hover {
+      background-color: #c82333;
+      transform: translateY(-1px);
+    }
+
+    /* Alert box */
+    .alert {
+      max-width: 100%;
+      margin-bottom: 1rem;
+    }
+
+    /* Responsive behavior */
+    @media (max-width: 992px) {
+      .sidebar {
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        justify-content: space-around;
+        padding: 0.5rem;
+        position: relative;
+      }
+
+      .main-content {
+        margin-left: 0;
+        padding-top: 1rem;
+      }
+
+      .sidebar a {
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+      }
+
+      .sidebar h4 {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h4>🏥 Dashboard</h4>
+    <a href="{% url 'home' %}" class="active"><i class="fas fa-home"></i> Home</a>
+    <a href="{% url 'add_doctor' %}"><i class="fas fa-user-md"></i> Add Doctor</a>
+    <a href="{% url 'add_patient' %}"><i class="fas fa-procedures"></i> Add Patient</a>
+    <a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+
+    <!-- Alerts -->
+    {% if messages %}
+    {% for i in messages %}
+    <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+      <strong>{{ i }}</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <!-- Doctors Section -->
+    <div class="container-section">
+      <h3>Doctors List</h3>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+          <thead>
+            <tr>
+              <th style="width:5%;">Sl No</th>
+              <th style="width:20%;">Name</th>
+              <th style="width:20%;">Department</th>
+              <th style="width:15%;">Phone</th>
+              <th style="width:25%;">Email</th>
+              <th style="width:15%;">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for doctor in doctors %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ doctor.name }}</td>
+              <td>{{ doctor.department }}</td>
+              <td>{{ doctor.phone }}</td>
+              <td>{{ doctor.email }}</td>
+              <td>
+                <a href="{% url 'edit_doctor' doctor.id %}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i>
+                  Update</a>
+                <a href="{% url 'delete_doctor' doctor.id %}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i>
+                  Delete</a>
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="6" class="text-muted">No doctors added yet.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Patients Section -->
+    <div class="container-section">
+      <h3>Patients List</h3>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+          <thead>
+            <tr>
+              <th style="width:5%;">Sl No</th>
+              <th style="width:15%;">Name</th>
+              <th style="width:8%;">Age</th>
+              <th style="width:10%;">Gender</th>
+              <th style="width:15%;">Phone</th>
+              <th style="width:15%;">Address</th>
+              <th style="width:12%;">Doctor</th>
+              <th style="width:10%;">Date Registered</th>
+              <th style="width:10%;">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for patient in patients %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ patient.name }}</td>
+              <td>{{ patient.age }}</td>
+              <td>{{ patient.gender }}</td>
+              <td>{{ patient.phone }}</td>
+              <td>{{ patient.address }}</td>
+              <td>{{ patient.doctor }}</td>
+              <td>{{ patient.date_registered }}</td>
+              <td>
+                <a href="{% url 'edit_patient' patient.id %}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i>
+                  Update</a>
+                <a href="{% url 'delete_patient' patient.id %}" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i>
+                  Delete</a>
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="9" class="text-muted">No patients registered yet.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta1/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta1/css/bootstrap.min.css"
+    />
+
+    <!-- Font Awesome Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    />
+
+    <title>Add Doctor | Hospital Management</title>
+
+    <style>
+      body {
+        background: linear-gradient(135deg, #e0f7fa, #ffffff);
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .form-card {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        padding: 2.5rem 2rem;
+        width: 100%;
+        max-width: 500px;
+      }
+
+      .form-card h3 {
+        color: #007bff;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .form-control {
+        border-radius: 8px;
+        padding: 10px;
+        font-size: 0.95rem;
+        margin-bottom: 1rem;
+      }
+
+      .btn-primary {
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        font-weight: 600;
+        background-color: #007bff;
+        border: none;
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary:hover {
+        background-color: #0056b3;
+        transform: translateY(-1px);
+      }
+
+      .back-link {
+        display: block;
+        text-align: center;
+        margin-top: 1rem;
+      }
+
+      .back-link a {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .back-link a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="form-card">
+      <h3><i class="fas fa-user-md"></i> Add Doctor</h3>
+      <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-plus-circle"></i> Add Doctor
+        </button>
+      </form>
+
+      <div class="back-link">
+        <a href="{% url 'home' %}"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta1/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
